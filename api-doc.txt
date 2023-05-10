@@ -1,0 +1,98 @@
+После скачивания проекта с гитхаб:
+docker compose up - для запуска локального сервера, адрес: localhost:8080
+Документация api с примерами:
+Регистрация нового пользователя
+POST api/user-registration/
+Пример запроса:
+{
+    "username": "testuser",
+}
+Пример ответа:
+{
+    "id": 1,
+    "username": "testuser",
+}
+Отправка заявки в друзья
+Запрос
+POST api/friend-requests
+{
+    "sender_id": 1,
+    "receiver_id": 2
+}
+Ответ:
+{
+    "id": 1,
+    "sender_id": 1,
+    "receiver_id": 2,
+    "status": "pending"
+}
+
+Принятие/отклонение заявки в друзья
+Запрос:
+PUT api/respond-to-friend-request/<int:request_id>/
+{
+    "status": "accepted"
+}
+Ответ:
+{
+    "id": 1,
+    "sender_id": 1,
+    "receiver_id": 2,
+    "status": "accepted"
+}
+Получение списка заявок в друзья
+Запрос:
+GET /friend-requests?user_id=1
+
+Ответ:
+{
+    "incoming": [
+        {
+            "id": 1,
+            "sender_id": 2,
+            "receiver_id": 1,
+            "status": "pending"
+        }
+    ],
+    "outgoing": [
+        {
+            "id": 2,
+            "sender_id": 1,
+            "receiver_id": 3,
+            "status": "pending"
+        }
+    ]
+}
+Получение списка друзей
+Запрос
+api/friend-list/<int:user_id>/
+
+Ответ
+{
+    "friends": [
+        {
+            "id": 2,
+            "username": "example_username2"
+        },
+        {
+            "id": 3,
+            "username": "example_username3"
+        }
+    ]
+}
+Получение статуса дружбы с другим пользователем
+Запрос
+api/friend-list/<int:user_id>/
+
+Ответ
+{
+    "status": "friends"
+}
+Удаление друга из списка друзей
+Запрос
+api/remove-friend/<int:user_id>/
+
+Ответ
+{
+    "message": "Friend deleted successfully"
+}
